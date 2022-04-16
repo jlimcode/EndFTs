@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "799dabc0119237e5ca7c6bf595544ead94d81995a5a4fd7ac4c94e5fad8f6a56"
+            "sha256": "530a28e092ac8ee2372ae5063524b61a301d4db87cf48b105d73bb67700f0317"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -38,6 +38,13 @@
             ],
             "markers": "python_version >= '3'",
             "version": "==3.3"
+        },
+        "imgurpython": {
+            "hashes": [
+                "sha256:3ac28501c2f699a78f93a4ab34df7443cebd39a170c9de4adecf0f3852cbdc33"
+            ],
+            "index": "pypi",
+            "version": "==1.1.7"
         },
         "oauthlib": {
             "hashes": [
