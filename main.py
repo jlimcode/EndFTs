@@ -1,7 +1,6 @@
 import os
 import tweepy
-
-logger = logging.getLogger()
+import time
 
 def create_api():
     consumer_key = os.getenv("CONSUMER_KEY")
@@ -12,14 +11,12 @@ def create_api():
 
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
-    api = tweepy.API(auth)
+    api = tweepy.API(auth, wait_on_rate_limit=True)
 
     try:
         api.verify_credentials()
     except Exception as e:
-        logger.error("Error creating API", exc_info=True)
         raise e
-    logger.info("API created")
 
     stream = tweepy.Stream(consumer_key,consumer_secret,access_token,access_token_secret)
     return api,stream
@@ -27,11 +24,17 @@ def create_api():
 
 def main():
     api,stream = create_api()
-    #mentions = stream.sample()
-    #print(mentions)
-    recent_mentions = api.mentions_timeline(count = 3)
-    for mention in recent_mentions:
-        print(mention)
+    check_recent_mentions = {}
+
+    while True:
+        recent_mentions = api.mentions_timeline(count = 3)
+        for mention in recent_mentions:
+            if mention in check_recent_mentions:
+                pass
+            else:
+                check_recent_mentions[mention] = True
+                print(mention.text)
+            time.sleep(15)
     
 
 
