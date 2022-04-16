@@ -9,21 +9,33 @@ def create_api():
     consumer_secret = os.getenv("CONSUMER_SECRET")
     access_token = os.getenv("ACCESS_TOKEN")
     access_token_secret = os.getenv("ACCESS_TOKEN_SECRET")
+    bearer_token = os.getenv("BEARER_TOKEN")
 
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
-    api = tweepy.API(auth, wait_on_rate_limit=True, 
-        wait_on_rate_limit_notify=True)
+    api = tweepy.API(auth)
+
     try:
         api.verify_credentials()
     except Exception as e:
         logger.error("Error creating API", exc_info=True)
         raise e
     logger.info("API created")
-    return api
+
+    stream = tweepy.Stream(consumer_key,consumer_secret,access_token,access_token_secret)
+    return api,stream
+
 
 def main():
-    api = create_api()
+    api,stream = create_api()
+    #mentions = stream.sample()
+    #print(mentions)
+    recent_mentions = api.mentions_timeline(count = 3)
+    for mention in recent_mentions:
+        print(mention)
+    
+
+
     
 
 if __name__ == "__main__":
