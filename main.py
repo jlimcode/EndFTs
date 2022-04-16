@@ -2,6 +2,7 @@ import os
 import tweepy
 from stream import MyStream
 import time
+from get_username import get_username, ParentCommentError
 
 
 def create_api():
