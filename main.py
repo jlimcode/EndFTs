@@ -1,6 +1,8 @@
 import os
 import tweepy
+from stream import MyStream
 import time
+
 
 def create_api():
     consumer_key = os.getenv("CONSUMER_KEY")
@@ -16,29 +18,19 @@ def create_api():
     try:
         api.verify_credentials()
     except Exception as e:
-        raise e
+        print("authentication error")
 
-    stream = tweepy.Stream(consumer_key,consumer_secret,access_token,access_token_secret)
-    return api,stream
+    stream = MyStream(consumer_key, consumer_secret,
+                      access_token, access_token_secret, api=api)
+    return api, stream
 
 
 def main():
-    api,stream = create_api()
-    check_recent_mentions = {}
+    api, stream = create_api()
+    print("tracking! 0")
+    stream.filter(track=["@EndFTs"])
+    print("tracking!")
 
-    while True:
-        recent_mentions = api.mentions_timeline(count = 3)
-        for mention in recent_mentions:
-            if mention in check_recent_mentions:
-                pass
-            else:
-                check_recent_mentions[mention] = True
-                print(mention.text)
-            time.sleep(15)
-    
-
-
-    
 
 if __name__ == "__main__":
     main()
