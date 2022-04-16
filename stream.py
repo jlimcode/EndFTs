@@ -2,6 +2,7 @@ import os
 import tweepy
 from get_username import get_username
 from grab_pfp import grab_pfp
+from reply_tweet import *
 
 KEY = os.getenv("CONSUMER_KEY")
 SECRET = os.getenv("CONSUMER_SECRET")
@@ -17,9 +18,13 @@ class MyStream(tweepy.Stream):
         # we do our thing here
         print(status.user.screen_name + " tweeted: " + status.text)
         parent = get_username(self.api, reply_tweet=status)
-        print(parent)
-        link = grab_pfp(user=parent)
-        print(link)
+        if parent is None:
+            base_comment(self.api, status)
+        else:
+            print(parent)
+            link = grab_pfp(user=parent)
+            print(link)
+            
         return super().on_status(status)
 
 def streamTweets(hashtags: list[str]):
