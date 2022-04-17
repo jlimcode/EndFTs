@@ -13,50 +13,53 @@ from web3 import HTTPProvider, Web3
 
 # w3 = Web3(provider=EthereumTesterProvider())
 
-contract_address = "0x9486423aA84204a16E46cEf83A0543F3D4150725"
-my_api_key = os.getenv("POLYGONSCAN_API_KEY")
-my_wallet_secret_key = os.getenv("WALLET_PRIVATE_KEY")
+def create_nft(uri: str):
 
-url = "https://api.polygonscan.com/api"
+    contract_address = "0x9486423aA84204a16E46cEf83A0543F3D4150725"
+    my_api_key = os.getenv("POLYGONSCAN_API_KEY")
+    my_wallet_secret_key = os.getenv("WALLET_PRIVATE_KEY")
 
-params = {
-    "module": "contract",
-    "action": "getabi",
-    "address": contract_address,
-    "apikey": my_api_key
-}
+    url = "https://api.polygonscan.com/api"
 
-r = requests.get(url=url, params=params)
-r_obj = r.json()
-abi = json.loads(r_obj['result'])
+    params = {
+        "module": "contract",
+        "action": "getabi",
+        "address": contract_address,
+        "apikey": my_api_key
+    }
 
-w3 = Web3(HTTPProvider("https://rpc.ankr.com/polygon"))
+    r = requests.get(url=url, params=params)
+    r_obj = r.json()
+    abi = json.loads(r_obj['result'])
 
-print(w3.isConnected())
+    w3 = Web3(HTTPProvider("https://rpc.ankr.com/polygon"))
 
-contract = w3.eth.contract(address=contract_address, abi=abi)
+    print(w3.isConnected())
 
-nonce = w3.eth.get_transaction_count(
-    os.getenv("METAMASK_WALLET_ADDY"))  # my wallet transactions
+    contract = w3.eth.contract(address=contract_address, abi=abi)
 
-mint_txn = contract.functions.mint(
-    "https://ipfs.io/ipfs/bafkreihxrk33rwxbvmydsbcytoygoc7udozgal4p4m6366hyyyrgaftrim"
-).buildTransaction({'chainId': 137,
-                    'gas': 10,
-                    'maxFeePerGas': w3.toWei('2', 'gwei'),
-                    'maxPriorityFeePerGas': w3.toWei('1', 'gwei'),
-                    'nonce': nonce
-                    })
+    nonce = w3.eth.get_transaction_count(
+        os.getenv("METAMASK_WALLET_ADDY"))  # my wallet transactions
 
-signed_txn = w3.eth.account.sign_transaction(
-    mint_txn, private_key=my_wallet_secret_key)
+    mint_txn = contract.functions.mint(uri).buildTransaction({'chainId': 137,
+                        'gas': 249003,
+                        # 'gasPrice': w3.toWei('40', 'gwei'),
+                        'maxFeePerGas': w3.toWei('40', 'gwei'),
+                        'maxPriorityFeePerGas': w3.toWei('31', 'gwei'),
+                        'nonce': nonce
+                        })
 
-print(signed_txn.hash)
+    signed_txn = w3.eth.account.sign_transaction(
+        mint_txn, private_key=my_wallet_secret_key)
 
-print(signed_txn.rawTransaction)
+    print(signed_txn.hash)
 
-hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+    print(signed_txn.rawTransaction)
 
-print(hash)
+    hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
 
-print(w3.toHex(w3.keccak(signed_txn.rawTransaction)))
+    print(hash)
+
+    print(w3.toHex(w3.keccak(hash)))
+    print(w3.toHex(w3.keccak(signed_txn.rawTransaction)))
+    return w3.toHex(w3.keccak(hash))
