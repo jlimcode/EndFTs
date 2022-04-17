@@ -1,4 +1,5 @@
 import tweepy
+import logging
 from tokens import *
 from stream import MyStream
 
@@ -21,6 +22,8 @@ def create_api():
 
 
 def main():
+    logging.basicConfig(filename="EndFTs", filemode = 'w', level = logging.INFO)
+
     api, stream = create_api()
     stream.filter(track=["@EndFTs"])
 
