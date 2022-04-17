@@ -1,8 +1,7 @@
 import os
 import requests
 import json
-# from web3 import Web3, EthereumTesterProvider
-from web3.auto import w3
+from web3 import HTTPProvider, Web3
 
 # from eth_tester import EthereumTester, PyEVMBackend
 
@@ -30,6 +29,10 @@ params = {
 r = requests.get(url=url, params=params)
 r_obj = r.json()
 abi = json.loads(r_obj['result'])
+
+w3 = Web3(HTTPProvider("https://rpc.ankr.com/polygon"))
+
+print(w3.isConnected())
 
 contract = w3.eth.contract(address=contract_address, abi=abi)
 
