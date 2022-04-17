@@ -1,8 +1,10 @@
 import tweepy
+import logging
 from tokens import *
 from grab_pfp import grab_pfp
 from username import get_username
-from reply_tweet import *
+from reply_tweet import base_comment
+from image_format import image_to_json
 
 class MyStream(tweepy.Stream):
     def __init__(self, consumer_key, consumer_secret, access_token, access_token_secret, api, **kwargs):
@@ -12,13 +14,13 @@ class MyStream(tweepy.Stream):
     def on_status(self, status):
         # we do our thing here
         print(f"{status.user.screen_name} tweeted: {status.text}")
-        parent = get_username(self.api, reply_tweet=status)
+        parent = get_username(api=self.api, reply_tweet=status)
         if parent is None:
             base_comment(self.api, status)
         else:
-            print(parent)
+            logging.info(f"Parent comment is from user {parent.screen_name}.")
             link = grab_pfp(user=parent)
-            print(link)
+            logging.info(f"{parent.screen_name}'s profile picture: {link}.")
             
         return super().on_status(status)
 

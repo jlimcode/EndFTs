@@ -16,7 +16,7 @@ def scrape_tweets(username: str, filename: str):
         exit(e)
 
     tweets = api.user_timeline(screen_name=username, count=1000, include_rts=False, tweet_mode='extended')
-    tweets = [{"tweet": tweet.full_text} for tweet in tweets]  
+    tweets = [{"tweet": tweet.full_text} for tweet in tweets]
 
     with open(filename, 'w', newline='') as f:
         fieldnames = ["tweet"]
