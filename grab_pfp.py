@@ -1,15 +1,10 @@
-import os
 import re
 import tweepy
+from tokens import *
 from imgurpython import ImgurClient
 
-client_id = os.getenv("IMGUR_CLIENTID")
-client_secret = os.getenv("IMGUR_SECRET")
-access_token = os.getenv("IMGUR_REFRESH_TOKEN")
-refresh_token = os.getenv("IMGUR_ACCESS_TOKEN")
-
 # Note since access tokens expire after an hour, only the refresh token is required (library handles autorefresh)
-client = ImgurClient(client_id, client_secret, access_token, refresh_token)
+client = ImgurClient(IMGUR_CLIENTID, IMGUR_SECRET, IMGUR_REFRESH_TOKEN, IMGUR_ACCESS_TOKEN)
 
 def grab_pfp(user: tweepy.User, client: ImgurClient = client):
     pfp_url = user.profile_image_url
