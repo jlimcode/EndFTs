@@ -1,13 +1,13 @@
-import os
-import requests
 import io
+import requests
+from tokens import *
 from image_format import image_to_json
 
 def send_post(upload_string):
-    url = 'https://api.web3.storage/upload'
-    headers = {'Authorization': "Bearer " + os.getenv("WEB3_STORAGE_API")}
-    files = io.BytesIO(bytes(upload_string, encoding='utf-8'))
-    files = {'file': io.BufferedReader(raw=files)}
+    url = "https://api.web3.storage/upload"
+    headers = {"Authorization": f"Bearer {WEB3_STORAGE_API}"}
+    files = io.BytesIO(bytes(upload_string, encoding="utf-8"))
+    files = {"file": io.BufferedReader(raw=files)}
     
     r = requests.post(url, headers=headers, files=files)
     cid = r.json()["cid"]

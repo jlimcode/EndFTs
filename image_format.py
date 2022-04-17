@@ -1,4 +1,4 @@
-import json
+from json import dumps
 
 def image_to_json(img):
     object_to_json = {
@@ -17,4 +17,4 @@ def image_to_json(img):
         ]
     }
 
-    return json.dumps(object_to_json)
+    return dumps(object_to_json)
