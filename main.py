@@ -22,7 +22,7 @@ def create_api():
 
 
 def main():
-    logging.basicConfig(filename="EndFTs", filemode = 'w', level = logging.INFO)
+    logging.basicConfig(filename="EndFTs.log", filemode = 'w', level = logging.INFO)
 
     api, stream = create_api()
     stream.filter(track=["@EndFTs"])
