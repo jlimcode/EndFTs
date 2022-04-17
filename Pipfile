@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 tweepy = "*"
 imgurpython = "*"
+requests = "*"
+web3 = "*"
 
 [dev-packages]
 autopep8 = "*"
