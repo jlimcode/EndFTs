@@ -1,6 +1,8 @@
 # EndFTs
 Robinhood for NFT Twitter PFPs: take from the rich, give to the people.
 
+[We win these](https://devpost.com/software/endfts?ref_content=my-projects-tab&ref_feature=my_projects).
+
 ## Description
 
 This 🤐🤐 Twitter 🐦 😩😩 😩🐦 bot 🤖🤖 🤖🏋 is 🤚👏 activated upon 🙁💰 ☝ being 😯 📈😑 😩 tagged in 🕒🏻 😂 👏 a ⛄🍖 🅰 response 🎉🎉 🎉🎉 to 🙌💦 💦🙅 🐚📬 a 🚞 👌🎉 🀄 tweet. 🤔🤔 🤔 It 😼😩 will 💦 🅱💰 then 🙄💯 💦🔙 make 📝👏 📣📝 the 👈👏 🏠 😆☸ original 🤔 💯 tweeter angry 😡 😡 by 😈🚗 😈 taking 👉😂 ✋✋ stealing 👏 👏 their 🅾 profile 🚟 🚟🚟 picture and ➕😩 🙋 turning 🙌🙌 💫🙌 it ✔ 😶🔄 into 🤔 our 💩💩 own 😎 🅱♂ 🎡🏻 NFT. 
