@@ -1,4 +1,5 @@
 import io
+import logging
 import requests
 from tokens import *
 from image_format import image_to_json
@@ -10,7 +11,7 @@ def send_post(upload_string):
     files = {"file": io.BufferedReader(raw=files)}
     
     r = requests.post(url, headers=headers, files=files)
-    print(r.json())
+    logging.info(r.json())
     cid = (r.json())["cid"]
     base_url = "https://ipfs.io/ipfs/"
     return base_url + cid
@@ -18,7 +19,7 @@ def send_post(upload_string):
 def main():
     image_url = "https://i.imgur.com/gYMR2Kk.jpeg"
     url = send_post(image_to_json(image_url))
-    print(url)
+    logging.info(url)
 
 if __name__ == "__main__":
     main()

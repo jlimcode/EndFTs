@@ -2,7 +2,6 @@ import csv
 import tweepy
 from tokens import *
 
-
 def scrape_tweets(username: str, filename: str):
     # Authenticate to Twitter
     auth = tweepy.OAuthHandler(

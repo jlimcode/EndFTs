@@ -1,23 +1,12 @@
-import os
-import requests
 import json
+import logging
+import requests
+from tokens import *
 from web3 import HTTPProvider, Web3
-
-# from eth_tester import EthereumTester, PyEVMBackend
-
-# e = EthereumTester(backend=PyEVMBackend())
-
-# accs = e.get_accounts()
-
-# print(accs)
-
-# w3 = Web3(provider=EthereumTesterProvider())
 
 def create_nft(uri: str):
 
     contract_address = "0x9486423aA84204a16E46cEf83A0543F3D4150725"
-    my_api_key = os.getenv("POLYGONSCAN_API_KEY")
-    my_wallet_secret_key = os.getenv("WALLET_PRIVATE_KEY")
 
     url = "https://api.polygonscan.com/api"
 
@@ -25,7 +14,7 @@ def create_nft(uri: str):
         "module": "contract",
         "action": "getabi",
         "address": contract_address,
-        "apikey": my_api_key
+        "apikey": POLYGONSCAN_API_KEY
     }
 
     r = requests.get(url=url, params=params)
@@ -34,12 +23,12 @@ def create_nft(uri: str):
 
     w3 = Web3(HTTPProvider("https://rpc.ankr.com/polygon"))
 
-    print(w3.isConnected())
+    logging.info(w3.isConnected())
 
     contract = w3.eth.contract(address=contract_address, abi=abi)
 
-    nonce = w3.eth.get_transaction_count(
-        os.getenv("METAMASK_WALLET_ADDY"))  # my wallet transactions
+    # my wallet transactions
+    nonce = w3.eth.get_transaction_count( METAMASK_WALLET_ADDY)
 
     mint_txn = contract.functions.mint(uri).buildTransaction({'chainId': 137,
                         'gas': 249003,
@@ -50,16 +39,15 @@ def create_nft(uri: str):
                         })
 
     signed_txn = w3.eth.account.sign_transaction(
-        mint_txn, private_key=my_wallet_secret_key)
+        mint_txn, private_key=WALLET_PRIVATE_KEY)
 
-    print(signed_txn.hash)
-
-    print(signed_txn.rawTransaction)
+    logging.info(signed_txn.hash)
+    logging.info(signed_txn.rawTransaction)
 
     hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
 
-    print(hash)
-
-    print(w3.toHex(w3.keccak(hash)))
-    print(w3.toHex(w3.keccak(signed_txn.rawTransaction)))
+    logging.info(hash)
+    logging.info(w3.toHex(w3.keccak(hash)))
+    logging.info(w3.toHex(w3.keccak(signed_txn.rawTransaction)))
+    
     return w3.toHex(w3.keccak(hash))
