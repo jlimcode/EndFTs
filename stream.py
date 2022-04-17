@@ -1,9 +1,10 @@
+import os
 import tweepy
 import logging
 from tokens import *
 from grab_pfp import grab_pfp
 from username import get_username
-from reply_tweet import base_comment
+from reply_tweet import base_comment, reply_nft
 
 class MyStream(tweepy.Stream):
     def __init__(self, consumer_key, consumer_secret, access_token, access_token_secret, api, **kwargs):
@@ -20,6 +21,13 @@ class MyStream(tweepy.Stream):
             logging.info(f"Parent comment is from user {parent.screen_name}.")
             link = grab_pfp(user=parent)
             logging.info(f"{parent.screen_name}'s profile picture: {link}.")
+            json_str = image_to_json(link)
+            w3_storage_url = send_post(json_str)
+            hex_hash = create_nft(w3_storage_url)
+            print('nft gen success', hex_hash)
+            out = reply_nft(self.api, status)
+            print(out)
+
             
         return super().on_status(status)
 
