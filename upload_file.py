@@ -10,7 +10,8 @@ def send_post(upload_string):
     files = {"file": io.BufferedReader(raw=files)}
     
     r = requests.post(url, headers=headers, files=files)
-    cid = r.json()["cid"]
+    print(r.json())
+    cid = (r.json())["cid"]
     base_url = "https://ipfs.io/ipfs/"
     return base_url + cid
 
