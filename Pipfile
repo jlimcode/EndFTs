@@ -8,6 +8,7 @@ tweepy = "*"
 imgurpython = "*"
 requests = "*"
 web3 = "*"
+eth-tester = {extras = ["py-evm"], version = "*"}
 
 [dev-packages]
 autopep8 = "*"
